@@ -10,6 +10,8 @@ var curmoot = &sync.Mutex{}
 
 var currencies = map[string]Currency{
 	"$": USD,
+	"€": EUR,
+	"£": GBP,
 }
 
 func AddCurrency(c Currency) {
