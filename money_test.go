@@ -41,3 +41,25 @@ func Test_String(t *testing.T) {
 		r.Equal(tt.Exp, m.String())
 	}
 }
+
+func Test_Amount(t *testing.T) {
+	r := require.New(t)
+
+	table := []struct {
+		A int64
+		N Numerator
+		D Denominator
+	}{
+		{59, 0, 59},
+		{100, 1, 0},
+		{12345, 123, 45},
+	}
+
+	for _, tt := range table {
+		m, err := New("$", tt.A)
+		r.NoError(err)
+		r.Equal(tt.N, m.Numerator)
+		r.Equal(tt.D, m.Denominator)
+		r.Equal(tt.A, m.Amount())
+	}
+}

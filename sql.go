@@ -2,7 +2,6 @@ package cash
 
 import (
 	"database/sql/driver"
-	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -15,17 +14,21 @@ var symX = regexp.MustCompile("(\\D+)")
 func (m *Money) Scan(src interface{}) error {
 	s, ok := src.(string)
 	if !ok {
-		return errors.New("can't scan non-string type")
+		return errors.New("cannot scan non-string type")
 	}
 
 	mx := symX.FindString(s)
-	if mx == "" {
-		return errors.Errorf("couldn't find currency symbol: %s", s)
+	if _, err := FindCurrency(mx); err != nil {
+		return err
 	}
 
 	s = strings.TrimPrefix(s, mx)
 
 	s = symX.ReplaceAllString(s, "")
+
+	if s == "" {
+		return errors.Errorf("empty value for money: %s", src)
+	}
 
 	i, err := strconv.Atoi(s)
 	if err != nil {
@@ -42,6 +45,6 @@ func (m *Money) Scan(src interface{}) error {
 	return nil
 }
 
-func (m *Money) Value() (driver.Value, error) {
-	return fmt.Sprintf("%d%s", m.amount, m.Currency.Symbol), nil
+func (m Money) Value() (driver.Value, error) {
+	return m.String(), nil
 }

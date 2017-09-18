@@ -6,7 +6,10 @@ type Money struct {
 	Currency    Currency
 	Numerator   Numerator
 	Denominator Denominator
-	amount      int64
+}
+
+func (m Money) Amount() int64 {
+	return int64(m.Numerator)*100 + int64(m.Denominator)
 }
 
 func (m Money) String() string {
@@ -23,7 +26,6 @@ func New(symbol string, amount int64) (Money, error) {
 	d := amount % 100
 	m := Money{
 		Currency:    c,
-		amount:      amount,
 		Numerator:   Numerator(n),
 		Denominator: Denominator(d),
 	}
