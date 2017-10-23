@@ -17,6 +17,7 @@ func (m *Money) Scan(src interface{}) error {
 		return errors.New("cannot scan non-string type")
 	}
 
+	s = strings.TrimSuffix(s, ".")
 	mx := symX.FindString(s)
 	if _, err := FindCurrency(mx); err != nil {
 		return err
@@ -26,8 +27,8 @@ func (m *Money) Scan(src interface{}) error {
 
 	s = symX.ReplaceAllString(s, "")
 
-	if s == "" {
-		return errors.Errorf("empty value for money: %s", src)
+	if s == "" || s == "." {
+		s = "0"
 	}
 
 	i, err := strconv.Atoi(s)

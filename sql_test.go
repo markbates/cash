@@ -19,6 +19,8 @@ func Test_Scan(t *testing.T) {
 		{"$100", "$1.00"},
 		{"$1.00", "$1.00"},
 		{"$1,000.42", "$1,000.42"},
+		{"$", "$0.00"},
+		{"$.", "$0.00"},
 	}
 
 	for _, tt := range table {
@@ -40,7 +42,6 @@ func Test_Scan_Errors(t *testing.T) {
 		{"asdfasdf", "could not find currency for"},
 		{"%100", "could not find currency for"},
 		{"", "could not find currency for"},
-		{"$", "empty value for money"},
 	}
 
 	for _, tt := range table {

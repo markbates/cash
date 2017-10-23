@@ -23,7 +23,11 @@ func (n Numerator) Format(sep string) string {
 	for i := 0; i < len(ss)/2; i++ {
 		ss[i], ss[last-i] = ss[last-i], ss[i]
 	}
-	return strings.TrimPrefix(strings.Join(ss, sep), "000,")
+	x := strings.TrimPrefix(strings.Join(ss, sep), "000,")
+	if x == "" {
+		x = "0"
+	}
+	return x
 }
 
 type Denominator int64
