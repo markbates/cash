@@ -13,6 +13,9 @@ func (m Money) Amount() int64 {
 }
 
 func (m Money) String() string {
+	if m.Currency.Format == nil {
+		m.Currency.Format = USD.Format
+	}
 	return m.Currency.Format(m)
 }
 
