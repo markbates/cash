@@ -6,6 +6,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+var ErrCurrencyNotFound = errors.New("currency not found")
 var curmoot = &sync.Mutex{}
 
 var currencies = map[string]Currency{
@@ -25,7 +26,7 @@ func FindCurrency(symbol string) (Currency, error) {
 	defer curmoot.Unlock()
 	c, ok := currencies[symbol]
 	if !ok {
-		return c, errors.Errorf("could not find currency for %s", symbol)
+		return c, errors.Wrapf(ErrCurrencyNotFound, "%s", symbol)
 	}
 	return c, nil
 }

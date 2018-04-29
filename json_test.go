@@ -20,6 +20,7 @@ func Test_UnmarshalJSON(t *testing.T) {
 		{"$100", "$1.00"},
 		{"$1.00", "$1.00"},
 		{"$1,000.42", "$1,000.42"},
+		{"1", "$0.01"},
 	}
 
 	for _, tt := range table {

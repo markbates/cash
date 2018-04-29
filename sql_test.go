@@ -3,6 +3,7 @@ package cash
 import (
 	"testing"
 
+	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
 )
 
@@ -35,19 +36,9 @@ func Test_Scan_Errors(t *testing.T) {
 
 	m := Money{}
 
-	table := []struct {
-		Val string
-		Exp string
-	}{
-		{"asdfasdf", "could not find currency for"},
-		{"%100", "could not find currency for"},
-		{"", "could not find currency for"},
-	}
-
-	for _, tt := range table {
-		err := m.Scan(tt.Val)
-		r.Error(err)
-		r.Contains(err.Error(), tt.Exp)
+	for _, v := range []string{"asdf", "%100", ""} {
+		err := m.Scan(v)
+		r.Equal(ErrCurrencyNotFound, errors.Cause(err))
 	}
 }
 
