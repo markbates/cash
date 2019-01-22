@@ -1,6 +1,7 @@
 package cash
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -44,6 +45,6 @@ func Test_MarshalJSON(t *testing.T) {
 	for _, tt := range table {
 		v, err := tt.M.MarshalJSON()
 		r.NoError(err)
-		r.Equal(tt.Exp, string(v))
+		r.Equal(fmt.Sprintf("%q", tt.Exp), string(v))
 	}
 }

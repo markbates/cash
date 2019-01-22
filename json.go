@@ -1,10 +1,14 @@
 package cash
 
-import "github.com/pkg/errors"
+import (
+	"encoding/json"
+
+	"github.com/pkg/errors"
+)
 
 func (m Money) MarshalJSON() ([]byte, error) {
 	s := m.String()
-	return []byte(s), nil
+	return json.Marshal(s)
 }
 
 func (m *Money) UnmarshalJSON(data []byte) error {
